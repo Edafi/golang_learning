@@ -68,11 +68,13 @@ func main() {
 	//fmt.Println(string(buffer))
 	phone2.Write(buffer)
 
-	file, err := os.Open("GoLang_Print.txt")
+	file, err := os.OpenFile("GoLang_Print.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("Something wrong! os.Open can't open the file")
 		os.Exit(1)
 	}
-	defer file.Close()
+	fmt.Fprintf(file, "%-10s %-10d %-10.3f\n", "Tom", 21, 78.1545)
+	file.Seek(0, 0)
 	io.Copy(os.Stdout, file)
+	defer file.Close()
 }
